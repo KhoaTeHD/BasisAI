@@ -7,8 +7,8 @@ public class Vertex implements Comparable<Vertex> {
 
     private State state;
     private Vertex parent;
-    private int g;  // total distance from starting vertex
-    private int h;  // distance from parent
+    private int g;  
+    private int h;  
     private int f;
     private ArrayList<Vertex> adjacentVertices;
 
