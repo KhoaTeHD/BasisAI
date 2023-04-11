@@ -1,59 +1,69 @@
 package AKT;
 
 import java.util.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.PriorityQueue;
 
 public class AKT {
-
-    public static Set<Vertex> visited = new HashSet<Vertex>(){
-        @Override
-        public boolean contains(Object obj) {
-            Vertex vertex = (Vertex) obj;
-
-            for (Vertex v : this) {
-                if ((vertex.equals(v))) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    };
 
     public AKT() {
     }
 
     public void AKTSearch(Vertex initialVertex, Vertex goal) {
-
-        PriorityQueue<Vertex> OpenList = new PriorityQueue<>(){
-            @Override
-            public boolean contains(Object obj) {
-                Vertex vertex = (Vertex) obj;
-
-                for (Vertex v : this) {
-                    if ((vertex.equals(v))) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        };
+        ArrayList<Vertex> closedList = new ArrayList<>();
+        ArrayList<Vertex> OpenList = new ArrayList<>();
 
         initialVertex.setG(0);
-        visited.add(initialVertex);
+        initialVertex.setH(calcHeuristic(initialVertex, goal));
+        initialVertex.setF(initialVertex.getG() + initialVertex.getH());
         OpenList.add(initialVertex);
+        
+        int count=1, state = 1;
+        
+        System.out.println(initialVertex.toString());
 
         while(!OpenList.isEmpty()){
+            Collections.sort(OpenList);
+            
+            System.out.println("Lan " + count++ + ":");
+            
+            StringBuilder sb = new StringBuilder();
+            
+            sb.append("Tap Open: [");
+            
+            int i = 0;
+            for(Vertex v : OpenList){
+                sb.append(v.getState().getName() + "(F = " + v.getF() + ")");
+                if( i != OpenList.size()-1){
+                    sb.append(", ");
+                }
+                i++;
+            }
+            sb.append("] \n");
+            
+            sb.append("Tap Closed: [");
+            
+            i = 0;
+            for(Vertex v : closedList){
+                sb.append(v.getState().getName() + "(F = " + v.getF() + ")");
+                if( i != closedList.size()-1){
+                    sb.append(", ");
+                }
+                i++;
+            }
+            sb.append("] \n");
+            
+            System.out.println(sb);
 
-            Vertex currentVertex = OpenList.poll();
+            Vertex currentVertex = OpenList.get(0);
 
             if(goal.equals(currentVertex)) {
                 currentVertex.tracePath().printPath();
                 break;
             }
-
-
+            
+            // Cho vao tap dong'
+            closedList.add(currentVertex);
+            
+            // Tim dinh ke`
             ArrayList<Vertex> newVertices = new ArrayList<>();
             
             newVertices.add(currentVertex.goBottom());
@@ -61,7 +71,7 @@ public class AKT {
             newVertices.add(currentVertex.goLeft());
             newVertices.add(currentVertex.goRight());
             
-            
+            System.out.println("===== Tu " + currentVertex.getState().getName() + " sinh ra =====");
             for (Vertex newVertex : newVertices){   
                 if(!currentVertex.tracePath().getPath().contains(newVertex)){                    
                     newVertex.setParent(currentVertex);
@@ -70,12 +80,14 @@ public class AKT {
                     
                     newVertex.setF(newVertex.getG() + h);
                     
-                    if (!visited.contains(newVertex) && !OpenList.contains(newVertex)){
-                        OpenList.add(newVertex);                   
-                        visited.add(newVertex);       
+                    if (!closedList.contains(newVertex) && !OpenList.contains(newVertex)){
+                        newVertex.getState().setName("S"+ state++);
+                        OpenList.add(newVertex);
+                        System.out.println(newVertex.toString());
                     }
-                }                
-            }       
+                }
+            }
+            OpenList.remove(0);
         }
     }
     
@@ -96,6 +108,7 @@ public class AKT {
         int[][] initArr = {{2,8,3},{1,6,4},{7,0,5}};
         int[][] goalArr = {{1,2,3},{8,0,4},{7,6,5}};
         State initState = new State(initArr);
+        initState.setName("S0");
         State goalState = new State(goalArr);
         Vertex init = new Vertex(initState);
         Vertex goal = new Vertex(goalState);

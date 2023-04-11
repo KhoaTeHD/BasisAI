@@ -25,13 +25,14 @@ public class Path<T> {
 
     public void printPath(){
         Collections.reverse(path);
+        System.out.println("-------- Ket qua --------");
         for (int i = 0; i < path.size(); i++){
-            if(i>0)
-                System.out.println("------- Step "+ i + " -------");
-            System.out.print(path.get(i).toString());
-            
+            Vertex v = (Vertex) path.get(i);
+            System.out.print(v.getState().getName());
+            if(i != path.size()-1){
+                System.out.print(" -> ");
+            }
         }
-        
         System.out.println();
     }    
 }

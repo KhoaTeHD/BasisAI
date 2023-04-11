@@ -5,7 +5,16 @@ import java.util.List;
 
 public class State {
 
-    private int[][] arr;  
+    private int[][] arr;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     
     public State(){
         this.arr = new int[3][3];
@@ -120,13 +129,14 @@ public class State {
     
     @Override
     public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(name + "\n" );
         for (int[] row : arr) {
             for(int data : row){
-                System.out.print(data + " ");
+                sb.append(data + " ");
             }
-            System.out.println(""); // xuống dòng
+            sb.append("\n"); // xuống dòng
         }
-        //System.out.println("--------------");
-        return "";
+        return sb.toString();
     }
 }

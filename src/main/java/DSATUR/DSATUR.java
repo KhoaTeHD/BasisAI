@@ -57,14 +57,11 @@ public class DSATUR {
             Collections.sort(unColor);
             Vertex selectedVertex = unColor.get(0);
             
-            for(Vertex v : unColor){
-                System.out.println(v.getState());
-            }
             for(int color = 1; color < 5; color++){
                 if(!selectedVertex.getBanned().contains(color)){
                     // to mau
                     selectedVertex.setColor(color);
-                    // ha bac
+                    // ha bac thanh 0
                     selectedVertex.setDegree(0);
                     // xoa khoi ArrayList
                     unColor.remove(0);

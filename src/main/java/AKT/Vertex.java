@@ -10,7 +10,6 @@ public class Vertex implements Comparable<Vertex> {
     private int g;  
     private int h;  
     private int f;
-    private ArrayList<Vertex> adjacentVertices;
 
     public Vertex() {}
 
@@ -42,10 +41,6 @@ public class Vertex implements Comparable<Vertex> {
     
     public Vertex goRight(){
 	return new Vertex(state.goRight());
-    }
-
-    public ArrayList<Vertex> getAdjacentVertices() {
-	    return adjacentVertices;
     }
 
     public int getG() {
@@ -82,7 +77,8 @@ public class Vertex implements Comparable<Vertex> {
 
     @Override
     public String toString() {
-        return this.state.toString();
+        String s = this.state.toString() + "G:" + this.g + " H:" + this.h + " F:" + this.f +"\n";
+        return s;
     }
 
     @Override

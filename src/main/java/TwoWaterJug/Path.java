@@ -3,6 +3,7 @@ package TwoWaterJug;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Path<T> {
     private List<T> path;
@@ -24,8 +25,13 @@ public class Path<T> {
     }
 
     public void printPath(){
+        Collections.reverse(path);
+        System.out.println("-------- Ket qua --------");
         for (int i = 0; i < path.size(); i++){
-            System.out.print(path.get(i).toString() + " ");
+            System.out.print(path.get(i).toString());
+            if(i != path.size()-1){
+                System.out.print(" -> ");
+            }
         }
         
         System.out.println();
